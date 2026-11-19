@@ -1,0 +1,32 @@
+[
+  {
+    "trenutna": "",
+    "nova": "NovaLozinka1",
+    "potvrda": "NovaLozinka1",
+    "ocekivanaGreska": "Molimo unesite trenutnu lozinku."
+  },
+  {
+    "trenutna": "Stara123",
+    "nova": "",
+    "potvrda": "NovaLozinka1",
+    "ocekivanaGreska": "Molimo unesite novu lozinku."
+  },
+  {
+    "trenutna": "Stara123",
+    "nova": "NovaLozinka1",
+    "potvrda": "",
+    "ocekivanaGreska": "Molimo potvrdite novu lozinku."
+  },
+  {
+    "trenutna": "Stara123",
+    "nova": "kratka1",
+    "potvrda": "kratka1",
+    "ocekivanaGreska": "Nova lozinka mora imati najmanje 8 znakova."
+  },
+  {
+    "trenutna": "Stara123",
+    "nova": "NovaLozinka1",
+    "potvrda": "DrugaLozinka2",
+    "ocekivanaGreska": "Nove lozinke se ne poklapaju."
+  }
+]

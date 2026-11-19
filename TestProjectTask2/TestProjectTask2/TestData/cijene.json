@@ -1,0 +1,5 @@
+[
+  { "pricingType": "Hourly", "jedinicnaCijena": 5.0, "satiTrajanja": 2, "ocekivanaCijena": 10.0 },
+  { "pricingType": "Daily", "jedinicnaCijena": 20.0, "satiTrajanja": 24, "ocekivanaCijena": 20.0 },
+  { "pricingType": "Monthly", "jedinicnaCijena": 100.0, "satiTrajanja": 24, "ocekivanaCijena": 100.0 }
+]

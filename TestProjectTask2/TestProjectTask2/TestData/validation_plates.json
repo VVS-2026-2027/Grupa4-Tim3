@@ -1,0 +1,7 @@
+[
+  { "tablica": "ABC-123", "normalizovana": "ABC-123", "validna": true },
+  { "tablica": "  ab-123  ", "normalizovana": "AB-123", "validna": true },
+  { "tablica": "xy 9", "normalizovana": "XY 9", "validna": false },
+  { "tablica": "###", "normalizovana": "###", "validna": false },
+  { "tablica": "", "normalizovana": "", "validna": false }
+]
