@@ -7,6 +7,7 @@ using System.IO;
 using ParkirajBa.Models;
 using ParkirajBa.Data;
 using ParkirajBa.Repositories;
+using ParkirajBa.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -21,16 +22,19 @@ namespace ParkirajBa.Controllers
         private readonly IParkingRepository _parkingRepository;
         private readonly string _senderEmail;
         private readonly string _senderPassword;
+        private readonly ISmtpSender _smtpSender;
 
         public PaymentController(
             UserManager<ApplicationUser> userManager,
             ApplicationDbContext database,
             IParkingRepository parkingRepository,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ISmtpSender smtpSender)
         {
             _userManager = userManager;
             _database = database;
             _parkingRepository = parkingRepository;
+            _smtpSender = smtpSender;
             _senderEmail = configuration["EmailSettings:SenderEmail"]
                 ?? throw new InvalidOperationException("EmailSettings:SenderEmail is not configured.");
             _senderPassword = configuration["EmailSettings:AppPassword"]
@@ -219,10 +223,7 @@ namespace ParkirajBa.Controllers
                 var attachment = new Attachment(ms, "ParkirajBa-QR.png", "image/png");
                 mail.Attachments.Add(attachment);
 
-                using var smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.Credentials = new NetworkCredential(_senderEmail, _senderPassword);
-                smtp.EnableSsl = true;
-                smtp.Send(mail);
+                _smtpSender.Send(mail, new NetworkCredential(_senderEmail, _senderPassword));
             }
             catch (Exception ex)
             {

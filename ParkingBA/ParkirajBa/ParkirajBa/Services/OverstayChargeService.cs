@@ -27,7 +27,7 @@ public class OverstayChargeService : BackgroundService
         }
     }
 
-    private async Task ProcessExpiredTickets()
+    internal async Task ProcessExpiredTickets()
     {
         using var scope = _scopeFactory.CreateScope();
 
@@ -57,7 +57,7 @@ public class OverstayChargeService : BackgroundService
         }
     }
 
-    private async Task CalculateAdditionalCharge(
+    internal async Task CalculateAdditionalCharge(
         Ticket ticket,
         ApplicationDbContext db,
         IEmailSender emailSender)

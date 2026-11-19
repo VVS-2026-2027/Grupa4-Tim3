@@ -81,6 +81,7 @@ namespace ParkirajBa
 
             // 3. Email sender (Identity IEmailSender)
             builder.Services.AddTransient<IEmailSender, EmailSender>();
+            builder.Services.AddTransient<ISmtpSender, SmtpSender>();
             builder.Services.AddHostedService<ReservationReminderService>();
 
             // ImageService
