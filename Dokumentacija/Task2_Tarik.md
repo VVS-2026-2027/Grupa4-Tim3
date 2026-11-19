@@ -5,8 +5,10 @@
 **Testni projekat:** `TestProjectTask2/TestProjectTask2`
 - `Controllers/PaymentControllerTests.cs`
 - `Services/OverstayChargeServiceTests.cs`
+- `Models/TicketTests.cs`
+- `Models/PricingTests.cs`
 
-**Rezultat:** 57 testnih metoda, odnosno 73 izvršavanja zajedno s data-driven slučajevima. Prolaze 72, a 1 je preskočen s `[Ignore]` jer otkriva bug (vidi poglavlje 6).
+**Rezultat:** 64 testne metode, odnosno 93 izvršavanja zajedno s data-driven slučajevima. Prolaze 92, a 1 je preskočen s `[Ignore]` jer otkriva bug (vidi poglavlje 6).
 
 ---
 
@@ -96,9 +98,21 @@ U tabelama su navedeni samo dodatni stereotipi.
 | ProcessExpiredTickets_KartaNijeZaObradu_NeSaljeMail | ne obrađuju se karte vozila koja nisu ušla ili su izašla, otkazane karte ni karte koje nisu istekle | `[DataRow]` ×4, Mock |
 | ExecuteAsync_PokretanjeIZaustavljanje_ObradiIstekleKarte | `StartAsync`/`StopAsync`: prva iteracija pozadinske petlje upiše naplatu | `[Timeout(5000)]` |
 
-### 2.3 Modeli
+### 2.3 Modeli (7 metoda)
 
-`PaymentViewModel`, `PricingCreateDto` i `Pricing` imaju samo propertije, a `Ticket` samo propertije sa zadanim vrijednostima. Nemaju logiku, pa nisu pisani posebni testovi za getere i setere. Alat za obuhvat ne broji auto-propertije (`SkipAutoProps`). Konstruktori `Ticket` i `Pricing` se izvršavaju u ostalim testovima. `PaymentViewModel` i `PricingCreateDto` nemaju izvršnih linija, pa se ne pojavljuju u izvještaju o obuhvatu. `PaymentViewModel` se nigdje u aplikaciji ne koristi.
+Modeli nemaju metode ni izračunata svojstva, pa nisu pisani testovi za obične getere i setere. Testiraju se **zadane vrijednosti** novog objekta, jer se na njima zasniva logika plaćanja i naplate prekoračenja. Npr. `AdditionalChargePaid = true` je uzrok buga 1 iz poglavlja 6. Imena propertija u `[DataRow]` su zadana preko `nameof(...)`, a vrijednost se čita pomoćnom metodom, pa test nema logike.
+
+| Test | Šta provjerava | Dodatni stereotipi |
+|---|---|---|
+| TicketTests.NovaKarta_LogickoSvojstvo_ImaZadanuVrijednost | nova karta: nije plaćena, otkazana ni na parkingu; `QrCodeActive = true`, `AdditionalChargePaid = true`, `OverstayEmailSent = false`, `SpotCountApplied = false` … | `[DataRow]` ×9 |
+| TicketTests.NovaKarta_OpcionalnoSvojstvo_NijePostavljeno | `ExpiresAt`, `PaidAt`, `EnteredAt`, `ExitedAt` i `ReservationCode` su `null` | `[DataRow]` ×5 |
+| TicketTests.NovaKarta_DodatnaNaplata_JeNula | `AdditionalCharge == 0` | |
+| TicketTests.NovaKarta_UkupnoPlaceneDodatneNaplate_JeNula | `TotalAdditionalChargesPaid == 0` | |
+| TicketTests.NovaKarta_VrijemeIzdavanja_JeTrenutnoVrijeme | `IssuedAt` se postavlja na trenutno vrijeme pri kreiranju | |
+| PricingTests.NovaCijena_DatumVazenja_NijePostavljen | `validFrom` i `validTo` su `null` | `[DataRow]` ×2 |
+| PricingTests.NovaCijena_VrstaCijene_JeSatna | zadana vrsta cijene je `PricingType.Hourly` | |
+
+`PaymentViewModel` i `PricingCreateDto` imaju samo obične propertije, bez zadanih vrijednosti i bez validacijskih atributa, pa nemaju ponašanje koje bi se moglo smisleno testirati. Alat za obuhvat ne broji auto-propertije (`SkipAutoProps`), pa ove dvije klase nemaju izvršnih linija i ne pojavljuju se u izvještaju o obuhvatu. `PaymentViewModel` se nigdje u aplikaciji ne koristi, a `PricingCreateDto` koristi samo `ParkingController`.
 
 ---
 
@@ -111,7 +125,7 @@ Podaci su u fajlovima u `TestData/` (kopiraju se uz testove). Pomoćna metoda ih
 | `TestData/checkout_slucajevi.csv` | CSV (`;`, zaglavlje `ticketId;additionalCharge`) | 5 | Checkout_SlucajeviIzCsv_PostavljaOznakuDodatneNaplate | Checkout za različite karte i oznake dodatne naplate. Pogled mora dobiti tačnu vrijednost `IsAdditionalCharge`. |
 | `TestData/prekoracenja.json` | JSON (niz `{ satiPrekoracenja, cijenaPoSatu, ocekivanaNaplata }`) | 6 | CalculateAdditionalCharge_PrekoracenjeIzJson_ObracunavaOcekivanuNaplatu | Obračun dodatne naplate: sati prekoračenja se zaokružuju naviše (`Math.Ceiling`) i množe satnom cijenom, npr. 0,25 h → 1 h, 5,75 h × 3 KM → 18 KM. |
 
-Inline data-driven testovi (`[DataRow]`): Confirm (2), SendConfirmationEmail za uslov smanjenja mjesta (3), GenerateQr za prazan kod (2), ProcessExpiredTickets za karte koje se ne obrađuju (4).
+Inline data-driven testovi (`[DataRow]`): Confirm (2), SendConfirmationEmail za uslov smanjenja mjesta (3), GenerateQr za prazan kod (2), ProcessExpiredTickets za karte koje se ne obrađuju (4), zadane vrijednosti `Ticket` (9 + 5) i `Pricing` (2).
 
 Vremena prekoračenja su namjerno necijeli sati (0,25; 2,5; 5,75…). Između postavljanja `ExpiresAt` i poziva `DateTime.Now` u servisu prođe par milisekundi, pa bi kod cijelog broja (npr. 3 h) `Math.Ceiling` dao 4.
 
