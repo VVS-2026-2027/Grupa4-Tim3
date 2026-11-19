@@ -7,11 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSTest" Version="4.2.3" />
+    <PackageReference Include="Moq" Version="4.21.0" />
+    <PackageReference Include="MSTest" Version="3.6.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.25" />
+    <PackageReference Include="NuGet.Packaging" Version="6.11.0" />
+    <PackageReference Include="NuGet.Protocol" Version="6.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ParkingBA\ParkirajBa\ParkirajBa\ParkirajBa.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

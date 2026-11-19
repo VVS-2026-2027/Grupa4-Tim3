@@ -1,0 +1,119 @@
+Summary
+  Generated on: 20/11/2026 - 00:14:23
+  Parser: Cobertura
+  Assemblies: 2
+  Classes: 97
+  Files: 100
+  Line coverage: 5.6%
+  Covered lines: 587
+  Uncovered lines: 9814
+  Coverable lines: 10401
+  Total lines: 19743
+  Covered branches: 0
+  Total branches: 0
+  Method coverage: 28.3% (162 of 571)
+  Full method coverage: 27.3% (156 of 571)
+  Covered methods: 162
+  Fully covered methods: 156
+  Total methods: 571
+
+ParkirajBa                                                                                     3.1%
+  AspNetCoreGeneratedDocument.Areas_Identity_Pages__ViewStart                                    0%
+  AspNetCoreGeneratedDocument.Views__ViewStart                                                   0%
+  AspNetCoreGeneratedDocument.Views_Admin_Dashboard                                              0%
+  AspNetCoreGeneratedDocument.Views_Admin_ParkingDetails                                         0%
+  AspNetCoreGeneratedDocument.Views_Admin_Parkings                                               0%
+  AspNetCoreGeneratedDocument.Views_Admin_Reports                                                0%
+  AspNetCoreGeneratedDocument.Views_Admin_Requests                                               0%
+  AspNetCoreGeneratedDocument.Views_Admin_Reservations                                           0%
+  AspNetCoreGeneratedDocument.Views_Admin_Users                                                  0%
+  AspNetCoreGeneratedDocument.Views_Home_Index                                                   0%
+  AspNetCoreGeneratedDocument.Views_Home_Objekti                                                 0%
+  AspNetCoreGeneratedDocument.Views_Home_Rezervacije                                             0%
+  AspNetCoreGeneratedDocument.Views_Parking__ParkingCreate                                       0%
+  AspNetCoreGeneratedDocument.Views_Parking__ParkingEdit                                         0%
+  AspNetCoreGeneratedDocument.Views_Parking_Details                                              0%
+  AspNetCoreGeneratedDocument.Views_Parking_Edit                                                 0%
+  AspNetCoreGeneratedDocument.Views_Parking_ParkingManagement                                    0%
+  AspNetCoreGeneratedDocument.Views_Payment_Checkout                                             0%
+  AspNetCoreGeneratedDocument.Views_Payment_Confirm                                              0%
+  AspNetCoreGeneratedDocument.Views_Payment_Success                                              0%
+  AspNetCoreGeneratedDocument.Views_Report_AdminReport                                           0%
+  AspNetCoreGeneratedDocument.Views_Report_AdminReportPdf                                        0%
+  AspNetCoreGeneratedDocument.Views_Report_ExportPdf                                             0%
+  AspNetCoreGeneratedDocument.Views_Report_Index                                                 0%
+  AspNetCoreGeneratedDocument.Views_Report_OwnerReport                                           0%
+  AspNetCoreGeneratedDocument.Views_Report_OwnerReportPdf                                        0%
+  AspNetCoreGeneratedDocument.Views_Report_TicketPdf                                             0%
+  AspNetCoreGeneratedDocument.Views_Reservation_Create                                           0%
+  AspNetCoreGeneratedDocument.Views_Reservation_Details                                          0%
+  AspNetCoreGeneratedDocument.Views_Reservation_Extend                                           0%
+  AspNetCoreGeneratedDocument.Views_Shared__AdminSidebar                                         0%
+  AspNetCoreGeneratedDocument.Views_Shared__Layout                                               0%
+  AspNetCoreGeneratedDocument.Views_Shared__LoginPartial                                         0%
+  AspNetCoreGeneratedDocument.Views_Shared__PaymentHeader                                        0%
+  AspNetCoreGeneratedDocument.Views_Shared_Error                                                 0%
+  AspNetCoreGeneratedDocument.Views_User_EmailConfirmationSent                                   0%
+  AspNetCoreGeneratedDocument.Views_User_EmailConfirmed                                          0%
+  AspNetCoreGeneratedDocument.Views_User_Login                                                   0%
+  AspNetCoreGeneratedDocument.Views_User_Profile                                                 0%
+  AspNetCoreGeneratedDocument.Views_User_Register                                                0%
+  ParkirajBa.Controllers.AdminController                                                         0%
+  ParkirajBa.Controllers.AdminUserViewModel                                                      0%
+  ParkirajBa.Controllers.HomeController                                                          0%
+  ParkirajBa.Controllers.NotificationController                                                100%
+  ParkirajBa.Controllers.ParkingController                                                       0%
+  ParkirajBa.Controllers.ParkingStatViewModel                                                    0%
+  ParkirajBa.Controllers.PaymentController                                                       0%
+  ParkirajBa.Controllers.QrController                                                            0%
+  ParkirajBa.Controllers.ReportController                                                        0%
+  ParkirajBa.Controllers.ReservationController                                                  97%
+  ParkirajBa.Controllers.UserController                                                          0%
+  ParkirajBa.Data.ApplicationDbContext                                                         100%
+  ParkirajBa.Migrations.AddedTotalAdditionalChargesPaid                                          0%
+  ParkirajBa.Migrations.AddExpirationReminderSent                                                0%
+  ParkirajBa.Migrations.AddIsCancelledToTicket                                                   0%
+  ParkirajBa.Migrations.AddReservationCodeAndPaidAt                                              0%
+  ParkirajBa.Migrations.AddSpotCountApplied                                                      0%
+  ParkirajBa.Migrations.AdminRequestParking                                                      0%
+  ParkirajBa.Migrations.ApplicationDbContextModelSnapshot                                        0%
+  ParkirajBa.Migrations.NewMigrationAgain                                                        0%
+  ParkirajBa.Migrations.ParkingRequestAndIsAvailable                                             0%
+  ParkirajBa.Migrations.TicketParkingTracking                                                    0%
+  ParkirajBa.Migrations.TimeSentRequest                                                          0%
+  ParkirajBa.Models.AdminProfile                                                                 0%
+  ParkirajBa.Models.ApplicationUser                                                            100%
+  ParkirajBa.Models.CardPaymentViewModel                                                         0%
+  ParkirajBa.Models.ErrorViewModel                                                             100%
+  ParkirajBa.Models.ExtendedRegisterViewModel                                                    0%
+  ParkirajBa.Models.OwnerProfile                                                                 0%
+  ParkirajBa.Models.ParkingImage                                                                 0%
+  ParkirajBa.Models.ParkingObject                                                             28.5%
+  ParkirajBa.Models.ParkingRequest                                                               0%
+  ParkirajBa.Models.PaymentViewModel                                                             0%
+  ParkirajBa.Models.Pricing                                                                     40%
+  ParkirajBa.Models.PricingCreateDto                                                             0%
+  ParkirajBa.Models.QrRequest                                                                    0%
+  ParkirajBa.Models.ReservationViewModel                                                         0%
+  ParkirajBa.Models.Ticket                                                                    69.5%
+  ParkirajBa.Program                                                                             0%
+  ParkirajBa.Repositories.ParkingRepository                                                      0%
+  ParkirajBa.Repositories.RequestRepository                                                      0%
+  ParkirajBa.Services.EmailSender                                                             93.3%
+  ParkirajBa.Services.ImageService                                                               0%
+  ParkirajBa.Services.OverstayChargeService                                                      0%
+  ParkirajBa.Services.ParkingReservationBackgroundService                                     21.4%
+  ParkirajBa.Services.ReservationReminderService                                               9.9%
+  ParkirajBa.Services.SmtpSender                                                                 0%
+
+TestProjectTask2                                                                              96.1%
+  ParkirajBa.Tests.Controllers.NotificationControllerTests                                     100%
+  ParkirajBa.Tests.Controllers.ReservationControllerTests                                      100%
+  ParkirajBa.Tests.Controllers.ReservationControllerTests.CijenaSlucaj                         100%
+  ParkirajBa.Tests.Helpers.TestSession                                                        31.2%
+  ParkirajBa.Tests.Models.ErrorViewModelTests                                                  100%
+  ParkirajBa.Tests.Services.EmailSenderTests                                                   100%
+  ParkirajBa.Tests.Services.ParkingReservationBackgroundServiceTests                           100%
+  ParkirajBa.Tests.Services.ParkingReservationBackgroundServiceTests.TestableParkingService    100%
+  ParkirajBa.Tests.Services.ReservationReminderServiceTests                                    100%
+  ParkirajBa.Tests.Services.ReservationReminderServiceTests.TestableReminderService            100%
