@@ -1,0 +1,8 @@
+[
+  { "satiPrekoracenja": 0.25, "cijenaPoSatu": 2.0, "ocekivanaNaplata": 2.0 },
+  { "satiPrekoracenja": 0.5, "cijenaPoSatu": 2.0, "ocekivanaNaplata": 2.0 },
+  { "satiPrekoracenja": 1.5, "cijenaPoSatu": 2.0, "ocekivanaNaplata": 4.0 },
+  { "satiPrekoracenja": 2.5, "cijenaPoSatu": 1.5, "ocekivanaNaplata": 4.5 },
+  { "satiPrekoracenja": 5.75, "cijenaPoSatu": 3.0, "ocekivanaNaplata": 18.0 },
+  { "satiPrekoracenja": 23.5, "cijenaPoSatu": 1.0, "ocekivanaNaplata": 24.0 }
+]
