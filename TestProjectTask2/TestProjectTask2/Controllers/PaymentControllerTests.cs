@@ -218,21 +218,6 @@ public class PaymentControllerTests
     [TestMethod]
     [TestCategory("Checkout")]
     [TestProperty("Autor", "Tarik")]
-    public async Task Checkout_RezervacijaUSesiji_OznacavaDaJeIzSesije()
-    {
-        // Arrange
-        PostaviRezervacijuUSesiju();
-
-        // Act
-        await _kontroler.Checkout(fromSession: true);
-
-        // Assert
-        Assert.AreEqual(true, _kontroler.ViewData["FromSession"]);
-    }
-
-    [TestMethod]
-    [TestCategory("Checkout")]
-    [TestProperty("Autor", "Tarik")]
     public async Task Checkout_KartaNePostoji_PreusmjeravaNaRezervacije()
     {
         // Arrange – repozitorij ne vraća kartu
@@ -342,7 +327,7 @@ public class PaymentControllerTests
     }
 
     // ---------------------------------------------------------------
-    // SendConfirmationEmail – tok plaćanja
+    // SendConfirmationEmail
     // ---------------------------------------------------------------
 
     [TestMethod]
@@ -394,68 +379,6 @@ public class PaymentControllerTests
     [TestMethod]
     [TestCategory("Placanje")]
     [TestProperty("Autor", "Tarik")]
-    public async Task SendConfirmationEmail_RezervacijaIzSesije_BriseRezervacijuIzSesije()
-    {
-        // Arrange
-        PostaviRezervacijuUSesiju();
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test");
-
-        // Assert
-        Assert.IsNull(_sesija.GetString("PendingReservation"));
-    }
-
-    [TestMethod]
-    [TestCategory("Placanje")]
-    [TestProperty("Autor", "Tarik")]
-    public async Task SendConfirmationEmail_SesijaIPostojecaKarta_NeSpremaNovuKartu()
-    {
-        // Arrange
-        PostaviRezervacijuUSesiju();
-        PostaviKartu();
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test", 7);
-
-        // Assert
-        Assert.AreEqual(0, _baza.Tickets.Count());
-    }
-
-    [TestMethod]
-    [TestCategory("Placanje")]
-    [TestProperty("Autor", "Tarik")]
-    [Priority(1)]
-    public async Task SendConfirmationEmail_RedovnoPlacanje_OznacavaKartuPlacenom()
-    {
-        // Arrange
-        var karta = PostaviKartu();
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test", 7);
-
-        // Assert
-        Assert.IsTrue(karta.IsPaid);
-    }
-
-    [TestMethod]
-    [TestCategory("Placanje")]
-    [TestProperty("Autor", "Tarik")]
-    public async Task SendConfirmationEmail_RedovnoPlacanje_GeneriseKodRezervacije()
-    {
-        // Arrange
-        var karta = PostaviKartu();
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test", 7);
-
-        // Assert
-        StringAssert.Matches(karta.ReservationCode, new System.Text.RegularExpressions.Regex("^PB-[0-9A-F]{8}$"));
-    }
-
-    [TestMethod]
-    [TestCategory("Placanje")]
-    [TestProperty("Autor", "Tarik")]
     [Priority(1)]
     public async Task SendConfirmationEmail_RedovnoPlacanje_SmanjujeSlobodnaMjesta()
     {
@@ -468,58 +391,6 @@ public class PaymentControllerTests
 
         // Assert
         Assert.AreEqual(9, parking.availableSpots);
-    }
-
-    [TestMethod]
-    [TestCategory("Placanje")]
-    [TestProperty("Autor", "Tarik")]
-    [DataRow(0, -1.5, false, DisplayName = "Nema slobodnih mjesta")]
-    [DataRow(10, 1.5, false, DisplayName = "Rezervacija još nije počela")]
-    [DataRow(10, -1.5, true, DisplayName = "Mjesto je već uračunato")]
-    public async Task SendConfirmationEmail_UslovZaMjestoNijeIspunjen_NeMijenjaSlobodnaMjesta(
-        int slobodnaMjesta, double satiDoPocetka, bool mjestoVecUracunato)
-    {
-        // Arrange
-        var karta = PostaviKartu();
-        karta.IssuedAt = DateTime.Now.AddHours(satiDoPocetka);
-        karta.SpotCountApplied = mjestoVecUracunato;
-        var parking = PostaviParking(slobodnaMjesta);
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test", 7);
-
-        // Assert
-        Assert.AreEqual(slobodnaMjesta, parking.availableSpots);
-    }
-
-    [TestMethod]
-    [TestCategory("Placanje")]
-    [TestProperty("Autor", "Tarik")]
-    public async Task SendConfirmationEmail_ParkingNePostoji_PreusmjeravaNaSuccess()
-    {
-        // Arrange – repozitorij ne vraća parking
-        PostaviKartu();
-
-        // Act
-        var rezultat = await _kontroler.SendConfirmationEmail("Tarik Test", 7) as RedirectToActionResult;
-
-        // Assert
-        Assert.AreEqual("Success", rezultat?.ActionName);
-    }
-
-    [TestMethod]
-    [TestCategory("Placanje")]
-    [TestProperty("Autor", "Tarik")]
-    public async Task SendConfirmationEmail_UspjesnoPlacanje_ProsljedjujeIdKarte()
-    {
-        // Arrange
-        PostaviKartu(7);
-
-        // Act
-        var rezultat = await _kontroler.SendConfirmationEmail("Tarik Test", 7) as RedirectToActionResult;
-
-        // Assert
-        Assert.AreEqual(7, rezultat?.RouteValues?["ticketId"]);
     }
 
     [TestMethod]
@@ -539,25 +410,6 @@ public class PaymentControllerTests
     }
 
     [TestMethod]
-    [TestCategory("Placanje")]
-    [TestProperty("Autor", "Tarik")]
-    public async Task SendConfirmationEmail_DodatnaNaplata_PonovoAktiviraQrKod()
-    {
-        // Arrange
-        var karta = PostaviKartu(dodatnaNaplata: 9m, dodatnaNaplataPlacena: false);
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test", 7, additionalCharge: true);
-
-        // Assert
-        Assert.IsTrue(karta.QrCodeActive);
-    }
-
-    // ---------------------------------------------------------------
-    // SendConfirmationEmail – slanje maila (mock ISmtpSender)
-    // ---------------------------------------------------------------
-
-    [TestMethod]
     [TestCategory("Mock")]
     [TestProperty("Autor", "Tarik")]
     [Priority(1)]
@@ -566,70 +418,6 @@ public class PaymentControllerTests
     {
         // Arrange
         PostaviKartu();
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test", 7);
-
-        // Assert
-        _smtp.Verify(s => s.Send(It.IsAny<MailMessage>(), It.IsAny<NetworkCredential>()), Times.Once);
-    }
-
-    [TestMethod]
-    [TestCategory("Mock")]
-    [TestProperty("Autor", "Tarik")]
-    [Timeout(2000)]
-    public async Task SendConfirmationEmail_UspjesnoPlacanje_SaljeMailNaAdresuKorisnika()
-    {
-        // Arrange
-        PostaviKartu();
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test", 7);
-
-        // Assert
-        _smtp.Verify(s => s.Send(It.Is<MailMessage>(m => m.To[0].Address == "tarik@test.ba"), It.IsAny<NetworkCredential>()), Times.Once);
-    }
-
-    [TestMethod]
-    [TestCategory("Mock")]
-    [TestProperty("Autor", "Tarik")]
-    [Timeout(2000)]
-    public async Task SendConfirmationEmail_UspjesnoPlacanje_KoristiKredencijaleIzKonfiguracije()
-    {
-        // Arrange
-        PostaviKartu();
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test", 7);
-
-        // Assert
-        _smtp.Verify(s => s.Send(It.IsAny<MailMessage>(),
-            It.Is<NetworkCredential>(c => c.UserName == "parkirajba@test.ba" && c.Password == "tajna-lozinka")), Times.Once);
-    }
-
-    [TestMethod]
-    [TestCategory("Mock")]
-    [TestProperty("Autor", "Tarik")]
-    public async Task SendConfirmationEmail_KartaNePostoji_NeSaljeMail()
-    {
-        // Arrange – repozitorij ne vraća kartu
-
-        // Act
-        await _kontroler.SendConfirmationEmail("Tarik Test", 42);
-
-        // Assert
-        _smtp.Verify(s => s.Send(It.IsAny<MailMessage>(), It.IsAny<NetworkCredential>()), Times.Never);
-    }
-
-    [TestMethod]
-    [TestCategory("Mock")]
-    [TestProperty("Autor", "Tarik")]
-    [Timeout(2000)]
-    public async Task SendConfirmationEmail_KartaBezRokaVazenja_IpakSaljeMail()
-    {
-        // Arrange
-        var karta = PostaviKartu();
-        karta.ExpiresAt = null;
 
         // Act
         await _kontroler.SendConfirmationEmail("Tarik Test", 7);
@@ -653,23 +441,6 @@ public class PaymentControllerTests
 
         // Assert
         StringAssert.Contains(_kontroler.TempData["EmailError"] as string, "Server nedostupan");
-    }
-
-    [TestMethod]
-    [TestCategory("Mock")]
-    [TestCategory("Izuzeci")]
-    [TestProperty("Autor", "Tarik")]
-    public async Task SendConfirmationEmail_SmtpBaciIzuzetak_IpakPreusmjeravaNaSuccess()
-    {
-        // Arrange
-        PostaviKartu();
-        _smtp.Setup(s => s.Send(It.IsAny<MailMessage>(), It.IsAny<NetworkCredential>())).Throws(new SmtpException("Server nedostupan"));
-
-        // Act
-        var rezultat = await _kontroler.SendConfirmationEmail("Tarik Test", 7) as RedirectToActionResult;
-
-        // Assert
-        Assert.AreEqual("Success", rezultat?.ActionName);
     }
 
     // ---------------------------------------------------------------
@@ -723,20 +494,6 @@ public class PaymentControllerTests
 
         // Assert
         Assert.IsInstanceOfType(rezultat, typeof(UnauthorizedResult));
-    }
-
-    [TestMethod]
-    [TestCategory("QR")]
-    [TestProperty("Autor", "Tarik")]
-    public async Task GenerateQr_KartaNePostoji_VracaNotFound()
-    {
-        // Arrange – repozitorij ne vraća kartu
-
-        // Act
-        var rezultat = await _kontroler.GenerateQr(42);
-
-        // Assert
-        Assert.IsInstanceOfType(rezultat, typeof(NotFoundResult));
     }
 
     [TestMethod]

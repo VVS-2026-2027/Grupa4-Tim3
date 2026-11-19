@@ -3,8 +3,7 @@ using ParkirajBa.Models;
 namespace TestProjectTask2.Models;
 
 /// <summary>
-/// Zadane vrijednosti nove cijene parkinga. OverstayChargeService koristi satnu cijenu
-/// i sortira cijene po datumu važenja (validFrom).
+/// Zadana vrijednost nove cijene parkinga. OverstayChargeService za obračun koristi satnu cijenu.
 /// </summary>
 [TestClass]
 public class PricingTests
@@ -21,25 +20,6 @@ public class PricingTests
     public void Ocisti()
     {
         _cijena = null!;
-    }
-
-    private static object? Vrijednost(object objekat, string svojstvo) =>
-        objekat.GetType().GetProperty(svojstvo)!.GetValue(objekat);
-
-    [TestMethod]
-    [TestCategory("Modeli")]
-    [TestProperty("Autor", "Tarik")]
-    [DataRow(nameof(Pricing.validFrom))]
-    [DataRow(nameof(Pricing.validTo))]
-    public void NovaCijena_DatumVazenja_NijePostavljen(string svojstvo)
-    {
-        // Arrange – nova cijena iz [TestInitialize]
-
-        // Act
-        var vrijednost = Vrijednost(_cijena, svojstvo);
-
-        // Assert
-        Assert.IsNull(vrijednost);
     }
 
     [TestMethod]

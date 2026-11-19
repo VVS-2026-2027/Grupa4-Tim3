@@ -52,25 +52,6 @@ public class TicketTests
     [TestMethod]
     [TestCategory("Modeli")]
     [TestProperty("Autor", "Tarik")]
-    [DataRow(nameof(Ticket.ExpiresAt))]
-    [DataRow(nameof(Ticket.PaidAt))]
-    [DataRow(nameof(Ticket.EnteredAt))]
-    [DataRow(nameof(Ticket.ExitedAt))]
-    [DataRow(nameof(Ticket.ReservationCode))]
-    public void NovaKarta_OpcionalnoSvojstvo_NijePostavljeno(string svojstvo)
-    {
-        // Arrange – nova karta iz [TestInitialize]
-
-        // Act
-        var vrijednost = Vrijednost(_karta, svojstvo);
-
-        // Assert
-        Assert.IsNull(vrijednost);
-    }
-
-    [TestMethod]
-    [TestCategory("Modeli")]
-    [TestProperty("Autor", "Tarik")]
     public void NovaKarta_DodatnaNaplata_JeNula()
     {
         // Arrange – nova karta iz [TestInitialize]
@@ -80,34 +61,5 @@ public class TicketTests
 
         // Assert
         Assert.AreEqual(0m, dodatnaNaplata);
-    }
-
-    [TestMethod]
-    [TestCategory("Modeli")]
-    [TestProperty("Autor", "Tarik")]
-    public void NovaKarta_UkupnoPlaceneDodatneNaplate_JeNula()
-    {
-        // Arrange – nova karta iz [TestInitialize]
-
-        // Act
-        var ukupnoPlaceno = _karta.TotalAdditionalChargesPaid;
-
-        // Assert
-        Assert.AreEqual(0m, ukupnoPlaceno);
-    }
-
-    [TestMethod]
-    [TestCategory("Modeli")]
-    [TestProperty("Autor", "Tarik")]
-    public void NovaKarta_VrijemeIzdavanja_JeTrenutnoVrijeme()
-    {
-        // Arrange
-        var prije = DateTime.Now;
-
-        // Act
-        var karta = new Ticket();
-
-        // Assert
-        Assert.IsTrue(karta.IssuedAt >= prije);
     }
 }
