@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pretrage>
+	<slucaj search="" role="" ocekivaniBroj="3" />
+	<slucaj search="amir" role="" ocekivaniBroj="1" />
+	<slucaj search="owner@test.ba" role="" ocekivaniBroj="1" />
+	<slucaj search="" role="Owner" ocekivaniBroj="1" />
+	<slucaj search="nepostojeci" role="" ocekivaniBroj="0" />
+</pretrage>
