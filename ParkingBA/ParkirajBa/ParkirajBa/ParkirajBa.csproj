@@ -24,4 +24,6 @@
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
+  <ItemGroup><InternalsVisibleTo Include="ParkirajBa.Tests" /></ItemGroup>
+
 </Project>
