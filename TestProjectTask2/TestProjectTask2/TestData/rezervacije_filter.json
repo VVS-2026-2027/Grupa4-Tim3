@@ -1,0 +1,22 @@
+[
+  {
+    "status": null,
+    "ocekivaniBroj": 5
+  },
+  {
+    "status": "active",
+    "ocekivaniBroj": 2
+  },
+  {
+    "status": "expired",
+    "ocekivaniBroj": 1
+  },
+  {
+    "status": "paid",
+    "ocekivaniBroj": 3
+  },
+  {
+    "status": "unpaid",
+    "ocekivaniBroj": 1
+  }
+]

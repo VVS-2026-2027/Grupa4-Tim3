@@ -1,0 +1,7 @@
+[
+  { "broj": "4111111111111111", "validan": true },
+  { "broj": "4012888888881881", "validan": true },
+  { "broj": "4111 1111 1111 1111", "validan": true },
+  { "broj": "4111111111111112", "validan": false },
+  { "broj": "123", "validan": false }
+]
