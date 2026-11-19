@@ -8,7 +8,8 @@
           <Include>[ParkirajBa]*</Include>
           <!-- Ne testiraju se: migracije, pogledi (Views) i klasa Program -->
           <Exclude>[ParkirajBa]ParkirajBa.Migrations.*,[ParkirajBa]AspNetCoreGeneratedDocument.*,[ParkirajBa]ParkirajBa.Program</Exclude>
-          <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+          <!-- CompilerGeneratedAttribute se NE smije isključiti: u tim klasama je tijelo async metoda -->
+          <ExcludeByAttribute>GeneratedCodeAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
           <!-- Auto-propertiji modela (get; set;) se ne broje -->
           <SkipAutoProps>true</SkipAutoProps>
         </Configuration>
