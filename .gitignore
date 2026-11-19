@@ -1,0 +1,12 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio / IDE
+.vs/
+*.user
+*.suo
+
+# Rezultati testova i obuhvata
+TestResults/
+coverage/
