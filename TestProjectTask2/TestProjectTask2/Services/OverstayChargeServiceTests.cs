@@ -192,51 +192,7 @@ public class OverstayChargeServiceTests
     }
 
     // ---------------------------------------------------------------
-    // CalculateAdditionalCharge – mail o prekoračenju (mock IEmailSender)
-    // ---------------------------------------------------------------
-
-    [TestMethod]
-    [TestCategory("Mock")]
-    [TestProperty("Autor", "Tarik")]
-    [Priority(1)]
-    [Timeout(2000)]
-    public async Task CalculateAdditionalCharge_MailNijePoslan_SaljeMailKorisnikuJednom()
-    {
-        // Arrange
-        DodajSatnuCijenu(2m);
-        var karta = NovaKarta(-2.5);
-
-        // Act
-        await Obracunaj(karta);
-
-        // Assert
-        _email.Verify(e => e.SendEmailAsync("tarik@test.ba", It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-    }
-
-    // ---------------------------------------------------------------
-    // ProcessExpiredTickets
-    // ---------------------------------------------------------------
-
-    [TestMethod]
-    [TestCategory("Obrada")]
-    [TestCategory("Mock")]
-    [TestProperty("Autor", "Tarik")]
-    [Priority(1)]
-    public async Task ProcessExpiredTickets_IsteklaKartaNaParkingu_SaljeMail()
-    {
-        // Arrange
-        DodajSatnuCijenu(2m);
-        SpremiKartu(NovaKarta(-2.5));
-
-        // Act
-        await _servis.ProcessExpiredTickets();
-
-        // Assert
-        _email.Verify(e => e.SendEmailAsync("tarik@test.ba", It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-    }
-
-    // ---------------------------------------------------------------
-    // ExecuteAsync (petlja pozadinskog servisa)
+    // ExecuteAsync (petlja pozadinskog servisa) – prolazi i kroz ProcessExpiredTickets
     // ---------------------------------------------------------------
 
     [TestMethod]

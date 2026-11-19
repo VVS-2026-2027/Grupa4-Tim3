@@ -48,18 +48,4 @@ public class TicketTests
         // Assert
         Assert.AreEqual(ocekivano, vrijednost);
     }
-
-    [TestMethod]
-    [TestCategory("Modeli")]
-    [TestProperty("Autor", "Tarik")]
-    public void NovaKarta_DodatnaNaplata_JeNula()
-    {
-        // Arrange – nova karta iz [TestInitialize]
-
-        // Act
-        var dodatnaNaplata = _karta.AdditionalCharge;
-
-        // Assert
-        Assert.AreEqual(0m, dodatnaNaplata);
-    }
 }

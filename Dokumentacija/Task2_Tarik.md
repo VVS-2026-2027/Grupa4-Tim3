@@ -6,9 +6,8 @@
 - `Controllers/PaymentControllerTests.cs`
 - `Services/OverstayChargeServiceTests.cs`
 - `Models/TicketTests.cs`
-- `Models/PricingTests.cs`
 
-**Rezultat:** 35 testnih metoda, odnosno 54 izvršavanja zajedno s data-driven slučajevima. Prolaze 53, a 1 je preskočen s `[Ignore]` jer otkriva bug (vidi poglavlje 6).
+**Rezultat:** 31 testna metoda, odnosno 50 izvršavanja zajedno s data-driven slučajevima. Prolazi 49, a 1 je preskočen s `[Ignore]` jer otkriva bug (vidi poglavlje 6).
 
 Testovi su birani tako da svaki pokriva svoj put kroz kod (svaki `if`/`return`, `catch` blok, petlju). Testovi koji bi samo drugom provjerom ponavljali već pokriven put nisu zadržani.
 
@@ -62,7 +61,7 @@ U tabelama su navedeni samo dodatni stereotipi.
 | GenerateQr_KartaBezKodaRezervacije_VracaNotFound | `null` i prazan kod daju NotFound | `[DataRow]` ×2 |
 | GenerateQr_IspravnaKarta_VracaPngSliku | vraća `FileContentResult` tipa `image/png` | `[Timeout(2000)]` |
 
-### 2.2 OverstayChargeServiceTests (8 metoda)
+### 2.2 OverstayChargeServiceTests (6 metoda)
 
 | Test | Šta provjerava | Dodatni stereotipi |
 |---|---|---|
@@ -71,19 +70,19 @@ U tabelama su navedeni samo dodatni stereotipi.
 | CalculateAdditionalCharge_VoziloIzasloSParkinga_NeSaljeMail | vozilo koje je izašlo ne dobija mail | Mock, `Verify(Times.Never)` |
 | CalculateAdditionalCharge_PrekoracenjeIzJson_ObracunavaOcekivanuNaplatu | prekoračenje zaokruženo naviše na sate, pomnoženo cijenom (6 slučajeva iz JSON-a) | `[DynamicData]`, DataDriven, `[Priority(1)]` |
 | CalculateAdditionalCharge_NeproduzenaKartaPrekoracena2_5h_ObracunavaNaplatu | očekivano ponašanje za neproduženu kartu (3 h × 2 KM = 6 KM) | `[Ignore]` (bug), Bug |
-| CalculateAdditionalCharge_MailNijePoslan_SaljeMailKorisnikuJednom | `IEmailSender.SendEmailAsync` je pozvan jednom, na email korisnika | Mock, `Verify(Times.Once)`, `[Priority(1)]`, `[Timeout(2000)]` |
-| ProcessExpiredTickets_IsteklaKartaNaParkingu_SaljeMail | istekla karta vozila na parkingu se pronađe u bazi i dobija mail | Mock, `[Priority(1)]` |
-| ExecuteAsync_PokretanjeIZaustavljanje_ObradiIstekleKarte | `StartAsync`/`StopAsync`: prva iteracija pozadinske petlje upiše naplatu | `[Timeout(5000)]` |
+| ExecuteAsync_PokretanjeIZaustavljanje_ObradiIstekleKarte | `StartAsync`/`StopAsync`: prva iteracija pozadinske petlje kroz `ProcessExpiredTickets` pronađe isteklu kartu u bazi, obračuna i upiše naplatu i pošalje mail | `[Timeout(5000)]` |
 
-### 2.3 Modeli (3 metode)
+`ProcessExpiredTickets` nema zaseban test jer ga `ExecuteAsync` test izvršava cijelog. Isto važi za slanje maila o prekoračenju, koje izvršavaju JSON i `ExecuteAsync` testovi.
+
+### 2.3 Modeli (1 metoda)
 
 Modeli nemaju metode ni izračunata svojstva, pa nisu pisani testovi za obične getere i setere. Testiraju se **zadane vrijednosti** novog objekta, jer se na njima zasniva logika plaćanja i naplate prekoračenja. Npr. `AdditionalChargePaid = true` je uzrok buga 1 iz poglavlja 6. Imena propertija u `[DataRow]` su zadana preko `nameof(...)`, a vrijednost se čita pomoćnom metodom, pa test nema logike.
 
 | Test | Šta provjerava | Dodatni stereotipi |
 |---|---|---|
 | TicketTests.NovaKarta_LogickoSvojstvo_ImaZadanuVrijednost | nova karta: nije plaćena, otkazana ni na parkingu; `QrCodeActive = true`, `AdditionalChargePaid = true`, `OverstayEmailSent = false`, `SpotCountApplied = false` … | `[DataRow]` ×9 |
-| TicketTests.NovaKarta_DodatnaNaplata_JeNula | `AdditionalCharge == 0` | |
-| PricingTests.NovaCijena_VrstaCijene_JeSatna | zadana vrsta cijene je `PricingType.Hourly` | |
+
+`Pricing` nema posebnu testnu klasu. Nema logike, a koristi se u testovima `OverstayChargeService` (satna cijena za obračun), kroz koje je 100% pokriven.
 
 `PaymentViewModel` i `PricingCreateDto` imaju samo obične propertije, bez zadanih vrijednosti i bez validacijskih atributa, pa nemaju ponašanje koje bi se moglo smisleno testirati. Alat za obuhvat ne broji auto-propertije (`SkipAutoProps`), pa ove dvije klase nemaju izvršnih linija i ne pojavljuju se u izvještaju o obuhvatu. `PaymentViewModel` se nigdje u aplikaciji ne koristi, a `PricingCreateDto` koristi samo `ParkingController`.
 
@@ -110,7 +109,7 @@ Vremena prekoračenja su namjerno necijeli sati (0,25; 2,5; 5,75…). Između po
 |---|---|---|---|
 | SQL Server baza (`ApplicationDbContext`) | EF Core InMemory, `Pomocne/TestBaza.Nova()`, za svaki test nova baza s imenom iz `Guid` | Fake | Testovi ne zavise od prave baze, brzi su i neovisni jedan o drugom. |
 | `ISmtpSender` (slanje maila preko Gmail SMTP-a) | `Mock<ISmtpSender>` | Mock (`Verify`) i stub (`Setup().Throws()`) | Ne šalje se pravi mail. Provjerava se da je mail poslan tačno jednom, te ponašanje kad SMTP baci izuzetak. |
-| `IEmailSender` (mail o prekoračenju) | `Mock<IEmailSender>` | Mock (`Verify` s `Times.Once` i `Times.Never`) | Provjerava se da li se mail šalje i kome, bez slanja maila. |
+| `IEmailSender` (mail o prekoračenju) | `Mock<IEmailSender>` | Mock (`Verify` s `Times.Never`, `Callback` u ExecuteAsync testu) | Ne šalje se pravi mail. Provjerava se da mail ne ode kad vozilo izađe, a u ExecuteAsync testu poziv maila javlja da je pozadinska petlja obradila kartu. |
 | `IParkingRepository` | `Mock<IParkingRepository>` | Stub (`Setup().ReturnsAsync()`) | Kontroler se testira izolovano od repozitorija, koji je kod drugog člana tima. Repozitorij vraća unaprijed zadanu kartu ili parking. |
 | `UserManager<ApplicationUser>` | `Mock<UserManager>` napravljen preko `Mock<IUserStore<ApplicationUser>>` | Stub | `GetUserAsync` vraća prijavljenog korisnika ili `null` (neprijavljen korisnik) bez Identity baze. |
 | HTTP sesija (`ISession`) | `Pomocne/LaznaSesija` (Dictionary u memoriji) | Fake | Kontroler čita i briše `PendingReservation` iz sesije. Nema pravog HTTP zahtjeva. |
