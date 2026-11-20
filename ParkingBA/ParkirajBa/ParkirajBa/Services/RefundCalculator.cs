@@ -12,8 +12,12 @@ public static class RefundCalculator
     {
         var preostaloVrijeme = pocetak - trenutakOtkazivanja;
 
-        if (preostaloVrijeme >= MinimalnoVrijemeZaPovrat &&
-            preostaloVrijeme < GranicaZaPuniPovrat)
+        if (preostaloVrijeme < MinimalnoVrijemeZaPovrat)
+        {
+            return 0m;
+        }
+
+        if (preostaloVrijeme < GranicaZaPuniPovrat)
         {
             return cijena * 0.5m;
         }
