@@ -2,6 +2,9 @@ namespace ParkirajBa.Services;
 
 public static class RefundCalculator
 {
+    private static readonly TimeSpan MinimalnoVrijemeZaPovrat = TimeSpan.FromHours(2);
+    private static readonly TimeSpan GranicaZaPuniPovrat = TimeSpan.FromHours(24);
+
     public static decimal IzracunajPovrat(
         decimal cijena,
         DateTime pocetak,
@@ -9,8 +12,8 @@ public static class RefundCalculator
     {
         var preostaloVrijeme = pocetak - trenutakOtkazivanja;
 
-        if (preostaloVrijeme >= TimeSpan.FromHours(2) &&
-            preostaloVrijeme < TimeSpan.FromHours(24))
+        if (preostaloVrijeme >= MinimalnoVrijemeZaPovrat &&
+            preostaloVrijeme < GranicaZaPuniPovrat)
         {
             return cijena * 0.5m;
         }
