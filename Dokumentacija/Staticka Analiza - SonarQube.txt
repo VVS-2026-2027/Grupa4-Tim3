@@ -1,0 +1,43 @@
+Rezultati statičke analize (SonarQube for IDE)
+
+Analizu smo pokrenuli u Visual Studiju pomoću ekstenzije SonarQube for IDE. Pošto ona bez servera analizira samo otvorene fajlove, otvorili smo kontrolere, modele, servise i Program.cs. Ukupno je prijavljen 81 nalaz, a većina se odnosi na manje probleme u kodu, ne na prave greške.
+
+Najviše nalaza po pravilima:
+
+S6964 (27 puta): cjelobrojna i slična polja u modelima (npr. DijeteId) nisu označena kao obavezna, pa ako forma ne pošalje vrijednost, upiše se 0 umjesto da se javi greška.
+S1192 (12 puta): isti tekst (npr. "DijeteId", "Uspjeh") ponavlja se više puta umjesto da bude konstanta.
+S6444 (9 puta): regularni izrazi se koriste bez vremenskog ograničenja.
+S4144 (6 puta): metoda DeleteConfirmed ili Delete ima potpuno isti kod kao Details, što je znak kopiranja.
+S3776 i S6562 (po 5 puta): previše složene metode, odnosno datumi bez navedene vremenske zone.
+S6967 (4 puta): ne provjerava se ModelState.IsValid.
+
+Najvažniji nalazi
+
+S2068 – lozinka u kodu (Program.cs, linija 65). Ovo je jedini sigurnosni nalaz koji je alat našao, i najozbiljniji je. Lozinka administratora je upisana direktno u kod. Isti problem smo našli i u ručnoj inspekciji.
+S6967 – ne provjerava se ModelState.IsValid (npr. AlergijaDjetetaController, DijeteController). Podaci iz forme se spremaju bez provjere, pa u bazu mogu ući neispravni podaci. Odgovara stavci LP-O4 iz naše liste provjere.
+S3776 – previsoka složenost metoda. Najgora je metoda u ObavijestController-u (složenost 39, a dozvoljeno je 15), zatim u DnevniIzvjestajController-u (26). Takve metode je teško čitati i testirati. Uz to, metoda u DnevniIzvjestajController-u ima 11 parametara (S107).
+S4144 – identične metode. U više kontrolera Delete radi isto što i Details, što pokazuje da je kod kopiran.
+S1144, S4487, S1481 – neiskorišten kod: nekorištene privatne metode (npr. AlergijaDjetetaExists), polje _logger u HomeController-u koje se nigdje ne koristi i nekorištena varijabla sekunde.
+
+Nalazi koje smatramo lažno pozitivnim ili nebitnim
+
+S6964 u modelima: većina se odnosi na Id polja koja baza sama postavlja i koja se ne unose kroz formu, pa tu nema stvarnog problema.
+S6444: regularni izrazi su jednostavni i rade nad kratkim tekstom (npr. email adresa), pa je rizik da se „zaglave“ zanemarljiv.
+S927 (ime parametra modelBuilder) i S6608 (First() umjesto [0]) su čisto stilski i ne utiču na rad aplikacije.
+
+Poređenje s ručnom inspekcijom
+
+Alat i mi smo se poklopili kod lozinke u kodu, nedostajuće provjere ModelState i kopiranog koda.
+
+Alat je našao stvari koje smo mi lakše previdjeli: nekorištene metode i varijable, ponovljene stringove, datume bez vremenske zone i tačnu mjeru složenosti metoda.
+
+S druge strane, alat nije našao najozbiljnije probleme iz ručne inspekcije:
+
+kontrolere bez [Authorize], gdje neprijavljen korisnik može pristupiti podacima o djeci;
+slaba pravila za lozinke;
+zastarjelu jquery-validation biblioteku;
+probleme u Dockerfileu.
+
+Za to treba razumjeti šta aplikacija radi i ko smije šta raditi, a to alat ne zna.
+
+Zaključak: statička analiza je brza i dobro hvata „sitne“ greške i loše prakse, ali ne može zamijeniti ručnu inspekciju, posebno kad su u pitanju sigurnost i kontrola pristupa. Najbolje je koristiti oboje.
