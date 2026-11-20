@@ -58,4 +58,18 @@ public sealed class ParkingFilterTests
         // Assert
         CollectionAssert.Contains(rezultat, parking);
     }
+
+    [TestMethod]
+    public void FiltrirajPoSlobodnimMjestima_ViseParkinga_SortiraOdNajviseMjesta()
+    {
+        // Arrange
+        var parkinzi = new List<ParkingObject>
+        {
+            new() { availableSpots = 4 }, new() { availableSpots = 8 }
+        };
+        // Act
+        var rezultat = ParkingFilter.FiltrirajPoSlobodnimMjestima(parkinzi, 0);
+        // Assert
+        Assert.AreEqual(8, rezultat[0].availableSpots);
+    }
 }
