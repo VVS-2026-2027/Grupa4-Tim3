@@ -17,9 +17,9 @@ public static class RefundCalculator
             throw new InvalidOperationException(OtkazivanjeNakonPocetkaPoruka);
 
         return preostalo >= PuniPovratniRok
-            ? cijena
+            ? Math.Round(cijena, 2, MidpointRounding.AwayFromZero)
             : preostalo >= MinimalniPovratniRok
-                ? cijena / 2m
+                ? Math.Round(cijena / 2m, 2, MidpointRounding.AwayFromZero)
                 : 0m;
     }
 }
