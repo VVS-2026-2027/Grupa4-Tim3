@@ -8,6 +8,9 @@ public static class RefundCalculator
 
     public static decimal IzracunajPovrat(decimal cijena, DateTime pocetak, DateTime trenutakOtkazivanja)
     {
+        if (cijena < 0m)
+            throw new ArgumentOutOfRangeException(nameof(cijena));
+
         var preostalo = pocetak - trenutakOtkazivanja;
 
         if (preostalo <= TimeSpan.Zero)
