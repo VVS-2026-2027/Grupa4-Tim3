@@ -68,4 +68,17 @@ public class RefundCalculatorTests
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             RefundCalculator.IzracunajPovrat(-1m, pocetak, pocetak.AddHours(-24)));
     }
+
+    [TestMethod]
+    public void IzracunajPovrat_OtkazanoTacno2SataPrije_ZaokruzujeNaDvijeDecimale()
+    {
+        // Arrange
+        var pocetak = new DateTime(2026, 11, 20, 12, 0, 0);
+
+        // Act
+        var povrat = RefundCalculator.IzracunajPovrat(9.99m, pocetak, pocetak.AddHours(-2));
+
+        // Assert
+        Assert.AreEqual(5.00m, povrat);
+    }
 }
