@@ -6,6 +6,8 @@ public static class ParkingFilter
 {
     public static List<ParkingObject> FiltrirajPoSlobodnimMjestima(IEnumerable<ParkingObject> parkinzi, int minimalnoMjesta)
     {
-        return parkinzi.ToList();
+        return parkinzi
+            .Where(parking => parking.availableSpots > minimalnoMjesta)
+            .ToList();
     }
 }
