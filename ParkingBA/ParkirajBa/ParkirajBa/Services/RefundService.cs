@@ -11,6 +11,6 @@ public class RefundService
 
     public Task RefundAsync(string kod, decimal iznos)
     {
-        throw new NotImplementedException();
+        return _paymentGateway.RefundAsync(kod, iznos);
     }
 }
