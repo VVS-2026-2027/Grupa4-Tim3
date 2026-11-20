@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+          <Include>[ParkirajBa]*</Include>
+          <!-- Ne testiraju se: migracije, pogledi (Views) i klasa Program -->
+          <Exclude>[ParkirajBa]ParkirajBa.Migrations.*,[ParkirajBa]AspNetCoreGeneratedDocument.*,[ParkirajBa]ParkirajBa.Program</Exclude>
+          <!-- CompilerGeneratedAttribute se NE smije isključiti: u tim klasama je tijelo async metoda -->
+          <ExcludeByAttribute>GeneratedCodeAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+          <!-- Auto-propertiji modela (get; set;) se ne broje -->
+          <SkipAutoProps>true</SkipAutoProps>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
