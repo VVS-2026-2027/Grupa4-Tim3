@@ -8,6 +8,10 @@ public static class RefundCalculator
     public static decimal IzracunajPovrat(decimal cijena, DateTime pocetak, DateTime trenutakOtkazivanja)
     {
         var preostalo = pocetak - trenutakOtkazivanja;
+
+        if (preostalo <= TimeSpan.Zero)
+            throw new InvalidOperationException("Rezervacija se ne može otkazati nakon početka.");
+
         return preostalo >= PuniPovratniRok
             ? cijena
             : preostalo >= MinimalniPovratniRok
