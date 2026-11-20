@@ -9,8 +9,6 @@ public class RefundService
         _paymentGateway = paymentGateway;
     }
 
-    public Task RefundAsync(string kod, decimal iznos)
-    {
-        return _paymentGateway.RefundAsync(kod, iznos);
-    }
+    public Task RefundAsync(string kod, decimal iznos) =>
+        _paymentGateway.RefundAsync(kod, iznos);
 }
