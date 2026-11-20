@@ -46,4 +46,15 @@ public class RefundCalculatorTests
         // Assert
         Assert.AreEqual(0m, povrat);
     }
+
+    [TestMethod]
+    public void IzracunajPovrat_OtkazanoTacnoNaPocetku_BacaInvalidOperationException()
+    {
+        // Arrange
+        var pocetak = new DateTime(2026, 11, 20, 12, 0, 0);
+
+        // Act and Assert
+        Assert.ThrowsExactly<InvalidOperationException>(() =>
+            RefundCalculator.IzracunajPovrat(20m, pocetak, pocetak));
+    }
 }
