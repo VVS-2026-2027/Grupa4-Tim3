@@ -32,4 +32,18 @@ public class RefundCalculatorTests
         // Assert
         Assert.AreEqual(10m, povrat);
     }
+
+    [TestMethod]
+    public void IzracunajPovrat_Otkazano1Sat59MinutaPrije_VracaNula()
+    {
+        // Arrange
+        var pocetak = new DateTime(2026, 11, 20, 12, 0, 0);
+        var otkazivanje = pocetak.AddMinutes(-119);
+
+        // Act
+        var povrat = RefundCalculator.IzracunajPovrat(20m, pocetak, otkazivanje);
+
+        // Assert
+        Assert.AreEqual(0m, povrat);
+    }
 }
