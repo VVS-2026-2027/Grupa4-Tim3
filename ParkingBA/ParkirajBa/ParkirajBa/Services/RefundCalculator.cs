@@ -7,6 +7,14 @@ public static class RefundCalculator
         DateTime pocetak,
         DateTime trenutakOtkazivanja)
     {
-        throw new NotImplementedException();
+        var preostaloVrijeme = pocetak - trenutakOtkazivanja;
+
+        if (preostaloVrijeme >= TimeSpan.FromHours(2) &&
+            preostaloVrijeme < TimeSpan.FromHours(24))
+        {
+            return cijena * 0.5m;
+        }
+
+        return 0m;
     }
 }
