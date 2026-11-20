@@ -141,14 +141,16 @@ public class PaymentControllerTests
     [TestMethod]
     [TestCategory("Izuzeci")]
     [TestProperty("Autor", "Tarik")]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Konstruktor_NedostajeSenderEmail_BacaInvalidOperationException()
     {
         // Arrange
         var konfiguracija = NapraviKonfiguraciju(null, "tajna-lozinka");
 
         // Act
-        _ = NapraviKontroler(konfiguracija);
+        var izuzetak = Assert.ThrowsExactly<InvalidOperationException>(() => NapraviKontroler(konfiguracija));
+
+        // Assert
+        Assert.AreEqual("EmailSettings:SenderEmail is not configured.", izuzetak.Message);
     }
 
     [TestMethod]
@@ -160,7 +162,7 @@ public class PaymentControllerTests
         var konfiguracija = NapraviKonfiguraciju("parkirajba@test.ba", null);
 
         // Act
-        var izuzetak = Assert.ThrowsException<InvalidOperationException>(() => NapraviKontroler(konfiguracija));
+        var izuzetak = Assert.ThrowsExactly<InvalidOperationException>(() => NapraviKontroler(konfiguracija));
 
         // Assert
         Assert.AreEqual("EmailSettings:AppPassword is not configured.", izuzetak.Message);
