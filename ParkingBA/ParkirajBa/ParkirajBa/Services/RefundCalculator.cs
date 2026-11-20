@@ -3,10 +3,14 @@ namespace ParkirajBa.Services;
 public static class RefundCalculator
 {
     private static readonly TimeSpan PuniPovratniRok = TimeSpan.FromHours(24);
+    private static readonly TimeSpan MinimalniPovratniRok = TimeSpan.FromHours(2);
 
     public static decimal IzracunajPovrat(decimal cijena, DateTime pocetak, DateTime trenutakOtkazivanja)
     {
         var preostalo = pocetak - trenutakOtkazivanja;
-        return preostalo >= PuniPovratniRok ? cijena : cijena / 2m;
+        if (preostalo >= PuniPovratniRok)
+            return cijena;
+
+        return preostalo >= MinimalniPovratniRok ? cijena / 2m : 0m;
     }
 }
