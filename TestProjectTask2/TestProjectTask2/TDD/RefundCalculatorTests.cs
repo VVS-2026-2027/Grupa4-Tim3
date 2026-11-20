@@ -57,4 +57,15 @@ public class RefundCalculatorTests
         Assert.ThrowsExactly<InvalidOperationException>(() =>
             RefundCalculator.IzracunajPovrat(20m, pocetak, pocetak));
     }
+
+    [TestMethod]
+    public void IzracunajPovrat_NegativnaCijena_BacaArgumentOutOfRangeException()
+    {
+        // Arrange
+        var pocetak = new DateTime(2026, 11, 20, 12, 0, 0);
+
+        // Act and Assert
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
+            RefundCalculator.IzracunajPovrat(-1m, pocetak, pocetak.AddHours(-24)));
+    }
 }
