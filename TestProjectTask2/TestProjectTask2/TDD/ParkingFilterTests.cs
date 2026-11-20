@@ -32,4 +32,16 @@ public sealed class ParkingFilterTests
         // Assert
         CollectionAssert.Contains(rezultat, parking);
     }
+
+    [TestMethod]
+    public void FiltrirajPoSlobodnimMjestima_ParkingSa2MjestaFilter3_ParkingNeProlazi()
+    {
+        // Arrange
+        var parking = new ParkingObject { name = "Centar", availableSpots = 2 };
+        var parkinzi = new List<ParkingObject> { parking };
+        // Act
+        var rezultat = ParkingFilter.FiltrirajPoSlobodnimMjestima(parkinzi, 3);
+        // Assert
+        CollectionAssert.DoesNotContain(rezultat, parking);
+    }
 }
