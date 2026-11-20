@@ -17,9 +17,12 @@ public static class RefundCalculator
             throw new InvalidOperationException(OtkazivanjeNakonPocetkaPoruka);
 
         return preostalo >= PuniPovratniRok
-            ? Math.Round(cijena, 2, MidpointRounding.AwayFromZero)
+            ? ZaokruziPovrat(cijena)
             : preostalo >= MinimalniPovratniRok
-                ? Math.Round(cijena / 2m, 2, MidpointRounding.AwayFromZero)
+                ? ZaokruziPovrat(cijena / 2m)
                 : 0m;
     }
+
+    private static decimal ZaokruziPovrat(decimal iznos) =>
+        Math.Round(iznos, 2, MidpointRounding.AwayFromZero);
 }
