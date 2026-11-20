@@ -8,9 +8,10 @@ public static class RefundCalculator
     public static decimal IzracunajPovrat(decimal cijena, DateTime pocetak, DateTime trenutakOtkazivanja)
     {
         var preostalo = pocetak - trenutakOtkazivanja;
-        if (preostalo >= PuniPovratniRok)
-            return cijena;
-
-        return preostalo >= MinimalniPovratniRok ? cijena / 2m : 0m;
+        return preostalo >= PuniPovratniRok
+            ? cijena
+            : preostalo >= MinimalniPovratniRok
+                ? cijena / 2m
+                : 0m;
     }
 }
