@@ -1,0 +1,4 @@
+[
+  { "searchText": "Centar", "hasGarage": false, "hasEVCharger": false, "hasCameras": false, "isDisabledAccessible": false, "regime": "Hour", "maxPrice": 10, "expectedCount": 1 },
+  { "searchText": "", "hasGarage": true, "hasEVCharger": false, "hasCameras": false, "isDisabledAccessible": false, "regime": "Hour", "maxPrice": 10, "expectedCount": 1 }
+]
