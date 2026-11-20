@@ -1,0 +1,6 @@
+[
+  { "sati": 0, "uspjesno": false },
+  { "sati": 1, "uspjesno": true },
+  { "sati": 24, "uspjesno": true },
+  { "sati": 25, "uspjesno": false }
+]
