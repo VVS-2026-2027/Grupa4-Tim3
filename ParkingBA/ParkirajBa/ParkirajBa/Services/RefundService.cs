@@ -10,5 +10,7 @@ public class RefundService
     }
 
     public Task RefundAsync(string kod, decimal iznos) =>
-        _paymentGateway.RefundAsync(kod, iznos);
+        iznos > 0m
+            ? _paymentGateway.RefundAsync(kod, iznos)
+            : Task.CompletedTask;
 }

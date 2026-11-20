@@ -30,4 +30,8 @@
     <None Update="TestData\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TDD\" />
+  </ItemGroup>
+
 </Project>
