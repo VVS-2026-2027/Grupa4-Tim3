@@ -6,6 +6,8 @@ public static class ParkingFilter
 {
     public static List<ParkingObject> FiltrirajPoSlobodnimMjestima(IEnumerable<ParkingObject> parkinzi, int minimalnoMjesta)
     {
+        ArgumentNullException.ThrowIfNull(parkinzi);
+
         if (minimalnoMjesta < 0)
         {
             throw new ArgumentException("Minimalni broj mjesta ne može biti negativan.", nameof(minimalnoMjesta));
