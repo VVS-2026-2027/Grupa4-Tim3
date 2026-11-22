@@ -8,7 +8,7 @@ public static class ParkingFilter
     {
         if (minimalnoMjesta < 0)
         {
-            throw new ArgumentException();
+            throw new ArgumentException("Minimalni broj mjesta ne može biti negativan.", nameof(minimalnoMjesta));
         }
 
         return parkinzi
