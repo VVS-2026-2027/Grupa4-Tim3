@@ -11,8 +11,6 @@
   * **0 neuspješnih (Failed)**
   * **0 preskočenih (Skipped)**
 
-Autorstvo je provjereno Git istorijom i `git blame` analizom. Testni fajlovi `TestProjectTask2/Test1.cs` i `TestProjectTask2/AdditionalUnitTests.cs` uvedeni su u commitu `16f3174` (`testoviKreirani`), autora `hjasarevic1` / Hamza Jasarević.
-
 ## 2. Spisak testnih klasa i testova
 
 ### 2.1. `ParkingObjectTests` (`Test1.cs`) — 3 metode
@@ -169,6 +167,6 @@ Mjerenje pokrivenosti izvršeno je komandom `dotnet test --collect:"XPlat Code C
 | `ParkirajBa.Models.ApplicationUser` | 6 / 7 | **85.7%** | — |
 | **Ukupno (testirane klase)** | **525 / 726** | **72.3%** | — |
 
-Coverage za kontrolere prikazan je za cijele klase. Testovi su usmjereni na funkcionalnosti obuhvaćene ovim zadatkom i implementacijski opseg autora, pa ukupni procenat kontrolera uključuje i metode i tokove koji nisu bili predmet ovog testnog skupa.
+Coverage za kontrolere prikazan je za cijele klase. Testovi su usmjereni na funkcionalnosti obuhvaćene ovim zadatkom i moj implementacijski opseg, pa ukupni procenat kontrolera uključuje i metode i tokove koji nisu bili predmet ovog testnog skupa.
 
 Nepokrivene linije uglavnom pripadaju dodatnim akcijama kontrolera, alternativnim authorization tokovima, granama za prijavljene korisnike, slanju emaila, kao i kombinacijama parametara koje nisu bile potrebne za testirane funkcionalnosti. Klase `Program` i pogledi nisu uključeni u obuhvat testiranja, u skladu sa zahtjevom zadatka.
