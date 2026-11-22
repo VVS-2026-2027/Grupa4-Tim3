@@ -72,4 +72,14 @@ public sealed class ParkingFilterTests
         // Assert
         Assert.AreEqual(8, rezultat[0].availableSpots);
     }
+
+    [TestMethod]
+    public void FiltrirajPoSlobodnimMjestima_NegativanFilter_BacaArgumentException()
+    {
+        // Arrange
+        var parkinzi = new List<ParkingObject>();
+        // Act
+        // Assert
+        Assert.ThrowsExactly<ArgumentException>(() => ParkingFilter.FiltrirajPoSlobodnimMjestima(parkinzi, -1));
+    }
 }
